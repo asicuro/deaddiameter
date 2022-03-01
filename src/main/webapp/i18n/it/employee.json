@@ -1,0 +1,36 @@
+{
+  "deadDiameterApp": {
+    "employee": {
+      "home": {
+        "title": "Employees",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Genera un nuovo Employee",
+        "createOrEditLabel": "Genera o modifica un Employee",
+        "notFound": "No Employees found"
+      },
+      "created": "&Egrave; stato generato un nuovo Employee con identificatore {{ param }}",
+      "updated": "&Egrave; stato aggiornato Employee identificato da {{ param }}",
+      "deleted": "&Egrave; stato eliminato Employee con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare Employee {{ id }}?"
+      },
+      "detail": {
+        "title": "Employee"
+      },
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "hireDate": "Hire Date",
+      "salary": "Salary",
+      "commissionPct": "Commission Pct",
+      "job": "Job",
+      "manager": "Manager",
+      "department": "Department",
+      "help": {
+        "firstName": "The firstname attribute."
+      }
+    }
+  }
+}

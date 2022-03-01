@@ -1,0 +1,26 @@
+{
+  "deadDiameterApp": {
+    "department": {
+      "home": {
+        "title": "Departments",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Genera un nuovo Department",
+        "createOrEditLabel": "Genera o modifica un Department",
+        "notFound": "No Departments found"
+      },
+      "created": "&Egrave; stato generato un nuovo Department con identificatore {{ param }}",
+      "updated": "&Egrave; stato aggiornato Department identificato da {{ param }}",
+      "deleted": "&Egrave; stato eliminato Department con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare Department {{ id }}?"
+      },
+      "detail": {
+        "title": "Department"
+      },
+      "id": "ID",
+      "departmentName": "Department Name",
+      "location": "Location",
+      "employee": "Employee"
+    }
+  }
+}
