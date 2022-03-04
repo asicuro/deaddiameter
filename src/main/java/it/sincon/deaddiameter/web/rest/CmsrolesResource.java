@@ -2,6 +2,7 @@ package it.sincon.deaddiameter.web.rest;
 
 import it.sincon.deaddiameter.domain.Cmsroles;
 import it.sincon.deaddiameter.repository.CmsrolesRepository;
+import it.sincon.deaddiameter.security.AuthoritiesConstants;
 import it.sincon.deaddiameter.service.CmsrolesService;
 import it.sincon.deaddiameter.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class CmsrolesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/cmsroles")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsroles> createCmsroles(@Valid @RequestBody Cmsroles cmsroles) throws URISyntaxException {
         log.debug("REST request to save Cmsroles : {}", cmsroles);
         if (cmsroles.getId() != null) {
@@ -79,6 +82,7 @@ public class CmsrolesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/cmsroles/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsroles> updateCmsroles(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody Cmsroles cmsroles
@@ -114,6 +118,7 @@ public class CmsrolesResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/cmsroles/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsroles> partialUpdateCmsroles(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Cmsroles cmsroles
@@ -145,6 +150,7 @@ public class CmsrolesResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cmsroles in body.
      */
     @GetMapping("/cmsroles")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<Cmsroles>> getAllCmsroles(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Cmsroles");
         Page<Cmsroles> page = cmsrolesService.findAll(pageable);
@@ -159,6 +165,7 @@ public class CmsrolesResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cmsroles, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/cmsroles/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsroles> getCmsroles(@PathVariable Long id) {
         log.debug("REST request to get Cmsroles : {}", id);
         Optional<Cmsroles> cmsroles = cmsrolesService.findOne(id);
@@ -172,6 +179,7 @@ public class CmsrolesResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/cmsroles/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteCmsroles(@PathVariable Long id) {
         log.debug("REST request to delete Cmsroles : {}", id);
         cmsrolesService.delete(id);

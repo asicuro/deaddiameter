@@ -2,6 +2,7 @@ package it.sincon.deaddiameter.web.rest;
 
 import it.sincon.deaddiameter.domain.Cmspage;
 import it.sincon.deaddiameter.repository.CmspageRepository;
+import it.sincon.deaddiameter.security.AuthoritiesConstants;
 import it.sincon.deaddiameter.service.CmspageService;
 import it.sincon.deaddiameter.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class CmspageResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/cmspages")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmspage> createCmspage(@Valid @RequestBody Cmspage cmspage) throws URISyntaxException {
         log.debug("REST request to save Cmspage : {}", cmspage);
         if (cmspage.getId() != null) {
@@ -79,6 +82,7 @@ public class CmspageResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/cmspages/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmspage> updateCmspage(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody Cmspage cmspage
@@ -114,6 +118,7 @@ public class CmspageResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/cmspages/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmspage> partialUpdateCmspage(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Cmspage cmspage
@@ -146,6 +151,7 @@ public class CmspageResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cmspages in body.
      */
     @GetMapping("/cmspages")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<Cmspage>> getAllCmspages(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "false") boolean eagerload
@@ -168,6 +174,7 @@ public class CmspageResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cmspage, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/cmspages/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmspage> getCmspage(@PathVariable Long id) {
         log.debug("REST request to get Cmspage : {}", id);
         Optional<Cmspage> cmspage = cmspageService.findOne(id);
@@ -181,6 +188,7 @@ public class CmspageResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/cmspages/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteCmspage(@PathVariable Long id) {
         log.debug("REST request to delete Cmspage : {}", id);
         cmspageService.delete(id);

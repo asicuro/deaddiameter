@@ -2,6 +2,7 @@ package it.sincon.deaddiameter.web.rest;
 
 import it.sincon.deaddiameter.domain.Cmsmenu;
 import it.sincon.deaddiameter.repository.CmsmenuRepository;
+import it.sincon.deaddiameter.security.AuthoritiesConstants;
 import it.sincon.deaddiameter.service.CmsmenuService;
 import it.sincon.deaddiameter.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -56,6 +58,7 @@ public class CmsmenuResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/cmsmenus")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsmenu> createCmsmenu(@Valid @RequestBody Cmsmenu cmsmenu) throws URISyntaxException {
         log.debug("REST request to save Cmsmenu : {}", cmsmenu);
         if (cmsmenu.getId() != null) {
@@ -79,6 +82,7 @@ public class CmsmenuResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/cmsmenus/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsmenu> updateCmsmenu(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody Cmsmenu cmsmenu
@@ -114,6 +118,7 @@ public class CmsmenuResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/cmsmenus/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsmenu> partialUpdateCmsmenu(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody Cmsmenu cmsmenu
@@ -146,6 +151,7 @@ public class CmsmenuResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of cmsmenus in body.
      */
     @GetMapping("/cmsmenus")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<Cmsmenu>> getAllCmsmenus(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "false") boolean eagerload
@@ -168,6 +174,7 @@ public class CmsmenuResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the cmsmenu, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/cmsmenus/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Cmsmenu> getCmsmenu(@PathVariable Long id) {
         log.debug("REST request to get Cmsmenu : {}", id);
         Optional<Cmsmenu> cmsmenu = cmsmenuService.findOne(id);
@@ -181,6 +188,7 @@ public class CmsmenuResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/cmsmenus/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteCmsmenu(@PathVariable Long id) {
         log.debug("REST request to delete Cmsmenu : {}", id);
         cmsmenuService.delete(id);

@@ -5,6 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { LANGUAGES } from 'app/config/language.constants';
 import { User } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
+import { CmsrolesService } from '../../../entities/cmsroles/service/cmsroles.service';
+import { HttpResponse } from '@angular/common/http';
+import { ICmsroles } from '../../../entities/cmsroles/cmsroles.model';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'jhi-user-mgmt-update',
@@ -14,6 +18,7 @@ export class UserManagementUpdateComponent implements OnInit {
   user!: User;
   languages = LANGUAGES;
   authorities: string[] = [];
+  cmsroles: ICmsroles[] = [];
   isSaving = false;
 
   editForm = this.fb.group({
@@ -33,9 +38,15 @@ export class UserManagementUpdateComponent implements OnInit {
     activated: [],
     langKey: [],
     authorities: [],
+    cmsroles: [],
   });
 
-  constructor(private userService: UserManagementService, private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    private userService: UserManagementService,
+    private route: ActivatedRoute,
+    protected cmsrolesService: CmsrolesService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {
@@ -48,6 +59,7 @@ export class UserManagementUpdateComponent implements OnInit {
       }
     });
     this.userService.authorities().subscribe(authorities => (this.authorities = authorities));
+    this.loadRelationshipsOptions();
   }
 
   previousState(): void {
@@ -70,6 +82,31 @@ export class UserManagementUpdateComponent implements OnInit {
     }
   }
 
+  getSelectedCmsroles(option: ICmsroles, selectedVals?: ICmsroles[]): ICmsroles {
+    if (selectedVals) {
+      for (const selectedVal of selectedVals) {
+        if (option.id === selectedVal.id) {
+          return selectedVal;
+        }
+      }
+    }
+    return option;
+  }
+  trackCmsrolesById(index: number, item: ICmsroles): number {
+    return item.id!;
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.cmsrolesService
+      .query()
+      .pipe(map((res: HttpResponse<ICmsroles[]>) => res.body ?? []))
+      .pipe(
+        map((cmsroles: ICmsroles[]) =>
+          this.cmsrolesService.addCmsrolesToCollectionIfMissing(cmsroles, ...(this.editForm.get('cmsroles')!.value ?? []))
+        )
+      )
+      .subscribe((cmsroles: ICmsroles[]) => (this.cmsroles = cmsroles));
+  }
   private updateForm(user: User): void {
     this.editForm.patchValue({
       id: user.id,
@@ -80,6 +117,7 @@ export class UserManagementUpdateComponent implements OnInit {
       activated: user.activated,
       langKey: user.langKey,
       authorities: user.authorities,
+      cmsroles: user.cmsroles,
     });
   }
 
@@ -91,6 +129,7 @@ export class UserManagementUpdateComponent implements OnInit {
     user.activated = this.editForm.get(['activated'])!.value;
     user.langKey = this.editForm.get(['langKey'])!.value;
     user.authorities = this.editForm.get(['authorities'])!.value;
+    user.cmsroles = this.editForm.get(['cmsroles'])!.value;
   }
 
   private onSaveSuccess(): void {

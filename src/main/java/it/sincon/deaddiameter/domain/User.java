@@ -89,6 +89,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "rel_user__cmsroles",
+        joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
+        inverseJoinColumns = { @JoinColumn(name = "cmsroles_id", referencedColumnName = "id") }
+    )
+    @BatchSize(size = 20)
+    private Set<Cmsroles> cmsroles = new HashSet<>();
+
     public Long getId() {
         return id;
     }
