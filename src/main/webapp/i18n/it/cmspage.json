@@ -1,0 +1,34 @@
+{
+  "deadDiameterApp": {
+    "cmspage": {
+      "home": {
+        "title": "Cmspages",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Genera un nuovo Cmspage",
+        "createOrEditLabel": "Genera o modifica un Cmspage",
+        "notFound": "No Cmspages found"
+      },
+      "created": "&Egrave; stato generato un nuovo Cmspage con identificatore {{ param }}",
+      "updated": "&Egrave; stato aggiornato Cmspage identificato da {{ param }}",
+      "deleted": "&Egrave; stato eliminato Cmspage con identificatore {{ param }}",
+      "delete": {
+        "question": "Sei sicuro di volere eliminare Cmspage {{ id }}?"
+      },
+      "detail": {
+        "title": "Cmspage"
+      },
+      "id": "ID",
+      "name": "Name",
+      "alias": "Alias",
+      "content": "Content",
+      "created": "Created",
+      "published": "Published",
+      "order": "Order",
+      "active": "Active",
+      "language": "Language",
+      "lastModified": "Last Modified",
+      "cmsroles": "Cmsroles",
+      "cmsmenu": "Cmsmenu"
+    }
+  }
+}

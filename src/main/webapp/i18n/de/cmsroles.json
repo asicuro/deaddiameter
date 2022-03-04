@@ -1,0 +1,28 @@
+{
+  "deadDiameterApp": {
+    "cmsroles": {
+      "home": {
+        "title": "Cmsroles",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Cmsroles erstellen",
+        "createOrEditLabel": "Cmsroles erstellen oder bearbeiten",
+        "notFound": "Keine Cmsroles gefunden"
+      },
+      "created": "Cmsroles erstellt mit ID {{ param }}",
+      "updated": "Cmsroles aktualisiert mit ID {{ param }}",
+      "deleted": "Cmsroles gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Cmsroles {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Cmsroles"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "cmspage": "Cmspage",
+      "cmsmenu": "Cmsmenu"
+    }
+  }
+}

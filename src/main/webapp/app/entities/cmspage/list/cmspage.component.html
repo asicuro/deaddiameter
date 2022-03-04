@@ -1,0 +1,130 @@
+<div>
+  <h2 id="page-heading" data-cy="CmspageHeading">
+    <span jhiTranslate="deadDiameterApp.cmspage.home.title">Cmspages</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="deadDiameterApp.cmspage.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-cmspage"
+        [routerLink]="['/cmspage/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="deadDiameterApp.cmspage.home.createLabel"> Create a new Cmspage </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="cmspages?.length === 0">
+    <span jhiTranslate="deadDiameterApp.cmspage.home.notFound">No cmspages found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="cmspages && cmspages.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="name">
+            <span jhiTranslate="deadDiameterApp.cmspage.name">Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="alias">
+            <span jhiTranslate="deadDiameterApp.cmspage.alias">Alias</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="content">
+            <span jhiTranslate="deadDiameterApp.cmspage.content">Content</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="created">
+            <span jhiTranslate="deadDiameterApp.cmspage.created">Created</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="published">
+            <span jhiTranslate="deadDiameterApp.cmspage.published">Published</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="order">
+            <span jhiTranslate="deadDiameterApp.cmspage.order">Order</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="active">
+            <span jhiTranslate="deadDiameterApp.cmspage.active">Active</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="language">
+            <span jhiTranslate="deadDiameterApp.cmspage.language">Language</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <span jhiTranslate="deadDiameterApp.cmspage.lastModified">Last Modified</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cmspage of cmspages; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/cmspage', cmspage.id, 'view']">{{ cmspage.id }}</a>
+          </td>
+          <td>{{ cmspage.name }}</td>
+          <td>{{ cmspage.alias }}</td>
+          <td>{{ cmspage.content }}</td>
+          <td>{{ cmspage.created | formatMediumDatetime }}</td>
+          <td>{{ cmspage.published }}</td>
+          <td>{{ cmspage.order }}</td>
+          <td>{{ cmspage.active }}</td>
+          <td jhiTranslate="{{ 'deadDiameterApp.Cmslanguage.' + cmspage.language }}">{{ cmspage.language }}</td>
+          <td>{{ cmspage.lastModified | formatMediumDatetime }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/cmspage', cmspage.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/cmspage', cmspage.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(cmspage)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="cmspages && cmspages.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

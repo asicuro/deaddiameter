@@ -1,0 +1,35 @@
+{
+  "deadDiameterApp": {
+    "cmsmenu": {
+      "home": {
+        "title": "Cmsmenus",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cmsmenu",
+        "createOrEditLabel": "Create or edit a Cmsmenu",
+        "notFound": "No Cmsmenus found"
+      },
+      "created": "A new Cmsmenu is created with identifier {{ param }}",
+      "updated": "A Cmsmenu is updated with identifier {{ param }}",
+      "deleted": "A Cmsmenu is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cmsmenu {{ id }}?"
+      },
+      "detail": {
+        "title": "Cmsmenu"
+      },
+      "id": "ID",
+      "name": "Name",
+      "title": "Title",
+      "description": "Description",
+      "css": "Css",
+      "menuType": "Menu Type",
+      "order": "Order",
+      "active": "Active",
+      "language": "Language",
+      "lastModified": "Last Modified",
+      "cmsmenu": "Cmsmenu",
+      "cmsroles": "Cmsroles",
+      "cmspage": "Cmspage"
+    }
+  }
+}

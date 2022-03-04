@@ -1,0 +1,81 @@
+{
+  "applications": "*",
+  "changelogDate": "20220304212215",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "cmsmenu",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "css",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "menuType",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "Cmslanguage",
+      "fieldValues": "ITALIAN,FRENCH,ENGLISH,SPANISH"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Cmsmenu",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "cmsmenu",
+      "otherEntityRelationshipName": "cmsmenu",
+      "ownerSide": true,
+      "relationshipName": "cmsmenu",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "cmsroles",
+      "otherEntityRelationshipName": "cmsmenu",
+      "ownerSide": true,
+      "relationshipName": "cmsroles",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "cmspage",
+      "otherEntityRelationshipName": "cmsmenu",
+      "ownerSide": true,
+      "relationshipName": "cmspage",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="cmspage">
+      <h2 data-cy="cmspageDetailsHeading"><span jhiTranslate="deadDiameterApp.cmspage.detail.title">Cmspage</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ cmspage.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.name">Name</span></dt>
+        <dd>
+          <span>{{ cmspage.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.alias">Alias</span></dt>
+        <dd>
+          <span>{{ cmspage.alias }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.content">Content</span></dt>
+        <dd>
+          <span>{{ cmspage.content }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.created">Created</span></dt>
+        <dd>
+          <span>{{ cmspage.created | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.published">Published</span></dt>
+        <dd>
+          <span>{{ cmspage.published }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.order">Order</span></dt>
+        <dd>
+          <span>{{ cmspage.order }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.active">Active</span></dt>
+        <dd>
+          <span>{{ cmspage.active }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.language">Language</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'deadDiameterApp.Cmslanguage.' + cmspage.language }}">{{ cmspage.language }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ cmspage.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmspage.cmsroles">Cmsroles</span></dt>
+        <dd>
+          <span *ngFor="let cmsroles of cmspage.cmsroles; let last = last">
+            <a [routerLink]="['/cmsroles', cmsroles?.id, 'view']">{{ cmsroles.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/cmspage', cmspage.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

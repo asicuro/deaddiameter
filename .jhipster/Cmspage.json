@@ -1,0 +1,72 @@
+{
+  "applications": "*",
+  "changelogDate": "20220304212216",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "cmspage",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "alias",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "created",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "published",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "order",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "Cmslanguage",
+      "fieldValues": "ITALIAN,FRENCH,ENGLISH,SPANISH"
+    },
+    {
+      "fieldName": "lastModified",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Cmspage",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "cmsroles",
+      "otherEntityRelationshipName": "cmspage",
+      "ownerSide": true,
+      "relationshipName": "cmsroles",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "cmsmenu",
+      "otherEntityRelationshipName": "cmspage",
+      "ownerSide": false,
+      "relationshipName": "cmsmenu",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

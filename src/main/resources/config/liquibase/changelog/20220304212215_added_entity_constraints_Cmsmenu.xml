@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Cmsmenu.
+    -->
+    <changeSet id="20220304212215-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="cmsmenu_id"
+                                 baseTableName="cmsmenu"
+                                 constraintName="fk_cmsmenu__cmsmenu_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cmsmenu"/>
+
+        <addForeignKeyConstraint baseColumnNames="cmsmenu_id"
+                                 baseTableName="rel_cmsmenu__cmsroles"
+                                 constraintName="fk_rel_cmsmenu__cmsroles__cmsmenu_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cmsmenu"/>
+
+        <addForeignKeyConstraint baseColumnNames="cmsroles_id"
+                                 baseTableName="rel_cmsmenu__cmsroles"
+                                 constraintName="fk_rel_cmsmenu__cmsroles__cmsroles_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cmsroles"/>
+
+        <addForeignKeyConstraint baseColumnNames="cmsmenu_id"
+                                 baseTableName="rel_cmsmenu__cmspage"
+                                 constraintName="fk_rel_cmsmenu__cmspage__cmsmenu_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cmsmenu"/>
+
+        <addForeignKeyConstraint baseColumnNames="cmspage_id"
+                                 baseTableName="rel_cmsmenu__cmspage"
+                                 constraintName="fk_rel_cmsmenu__cmspage__cmspage_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cmspage"/>
+    </changeSet>
+</databaseChangeLog>

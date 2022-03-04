@@ -1,0 +1,28 @@
+{
+  "deadDiameterApp": {
+    "cmsroles": {
+      "home": {
+        "title": "Cmsroles",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cmsroles",
+        "createOrEditLabel": "Create or edit a Cmsroles",
+        "notFound": "No Cmsroles found"
+      },
+      "created": "A new Cmsroles is created with identifier {{ param }}",
+      "updated": "A Cmsroles is updated with identifier {{ param }}",
+      "deleted": "A Cmsroles is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cmsroles {{ id }}?"
+      },
+      "detail": {
+        "title": "Cmsroles"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "active": "Active",
+      "cmspage": "Cmspage",
+      "cmsmenu": "Cmsmenu"
+    }
+  }
+}

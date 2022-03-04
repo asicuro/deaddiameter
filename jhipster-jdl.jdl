@@ -1,0 +1,58 @@
+
+entity Cmsmenu {
+	name String required,
+    title String required,
+    description String required,
+    css String,
+    menuType Integer,
+    order Integer,
+    active Boolean,
+    language Cmslanguage,
+    lastModified Instant,
+	//modifiedBy    
+}
+entity Cmspage{
+	
+	name String required,
+    alias String required,
+    content TextBlob,
+    created Instant,
+    published Boolean,
+    order Integer,
+    active Boolean,
+    language Cmslanguage,
+    lastModified Instant,
+    
+	//modifiedBy    
+}
+
+entity Cmsroles
+{
+	name String required,
+    description String required,
+    active Boolean
+}
+enum Cmslanguage {
+    ITALIAN, FRENCH, ENGLISH, SPANISH
+}
+
+
+relationship ManyToMany {
+	Cmspage{cmsroles(name)} to Cmsroles{cmspage}
+    Cmsmenu{cmsroles(name)} to Cmsroles{cmsmenu}
+    Cmsmenu{cmspage(name)} to Cmspage{cmsmenu}
+}
+// defining multiple oneToOne relationships
+relationship OneToOne {
+	Cmsmenu{cmsmenu(name)} to Cmsmenu
+}
+
+// Set pagination options
+paginate Cmsmenu with pagination
+paginate Cmspage with pagination
+paginate Cmsroles with pagination
+service all with serviceImpl 
+// except Employee, Job
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

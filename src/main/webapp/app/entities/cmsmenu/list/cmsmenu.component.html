@@ -1,0 +1,136 @@
+<div>
+  <h2 id="page-heading" data-cy="CmsmenuHeading">
+    <span jhiTranslate="deadDiameterApp.cmsmenu.home.title">Cmsmenus</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="deadDiameterApp.cmsmenu.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-cmsmenu"
+        [routerLink]="['/cmsmenu/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="deadDiameterApp.cmsmenu.home.createLabel"> Create a new Cmsmenu </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="cmsmenus?.length === 0">
+    <span jhiTranslate="deadDiameterApp.cmsmenu.home.notFound">No cmsmenus found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="cmsmenus && cmsmenus.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="name">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.name">Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.title">Title</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.description">Description</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="css"><span jhiTranslate="deadDiameterApp.cmsmenu.css">Css</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="menuType">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.menuType">Menu Type</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="order">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.order">Order</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="active">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.active">Active</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="language">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.language">Language</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="lastModified">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.lastModified">Last Modified</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="cmsmenu.name">
+            <span jhiTranslate="deadDiameterApp.cmsmenu.cmsmenu">Cmsmenu</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cmsmenu of cmsmenus; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/cmsmenu', cmsmenu.id, 'view']">{{ cmsmenu.id }}</a>
+          </td>
+          <td>{{ cmsmenu.name }}</td>
+          <td>{{ cmsmenu.title }}</td>
+          <td>{{ cmsmenu.description }}</td>
+          <td>{{ cmsmenu.css }}</td>
+          <td>{{ cmsmenu.menuType }}</td>
+          <td>{{ cmsmenu.order }}</td>
+          <td>{{ cmsmenu.active }}</td>
+          <td jhiTranslate="{{ 'deadDiameterApp.Cmslanguage.' + cmsmenu.language }}">{{ cmsmenu.language }}</td>
+          <td>{{ cmsmenu.lastModified | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="cmsmenu.cmsmenu">
+              <a [routerLink]="['/cmsmenu', cmsmenu.cmsmenu?.id, 'view']">{{ cmsmenu.cmsmenu?.name }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/cmsmenu', cmsmenu.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/cmsmenu', cmsmenu.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(cmsmenu)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="cmsmenus && cmsmenus.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,159 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-cmsmenu-heading" data-cy="CmsmenuCreateUpdateHeading" jhiTranslate="deadDiameterApp.cmsmenu.home.createOrEditLabel">
+        Create or edit a Cmsmenu
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.css" for="field_css">Css</label>
+          <input type="text" class="form-control" name="css" id="field_css" data-cy="css" formControlName="css" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.menuType" for="field_menuType">Menu Type</label>
+          <input type="number" class="form-control" name="menuType" id="field_menuType" data-cy="menuType" formControlName="menuType" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.order" for="field_order">Order</label>
+          <input type="number" class="form-control" name="order" id="field_order" data-cy="order" formControlName="order" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.active" for="field_active">Active</label>
+          <input type="checkbox" class="form-check" name="active" id="field_active" data-cy="active" formControlName="active" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.language" for="field_language">Language</label>
+          <select class="form-control" name="language" formControlName="language" id="field_language" data-cy="language">
+            <option [ngValue]="null">{{ 'deadDiameterApp.Cmslanguage.null' | translate }}</option>
+            <option *ngFor="let cmslanguage of cmslanguageValues" [value]="cmslanguage">
+              {{ 'deadDiameterApp.Cmslanguage.' + cmslanguage | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.lastModified" for="field_lastModified"
+            >Last Modified</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_lastModified"
+              data-cy="lastModified"
+              type="datetime-local"
+              class="form-control"
+              name="lastModified"
+              formControlName="lastModified"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="deadDiameterApp.cmsmenu.cmsmenu" for="field_cmsmenu">Cmsmenu</label>
+          <select class="form-control" id="field_cmsmenu" data-cy="cmsmenu" name="cmsmenu" formControlName="cmsmenu">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="cmsmenuOption.id === editForm.get('cmsmenu')!.value?.id ? editForm.get('cmsmenu')!.value : cmsmenuOption"
+              *ngFor="let cmsmenuOption of cmsmenusCollection; trackBy: trackCmsmenuById"
+            >
+              {{ cmsmenuOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="deadDiameterApp.cmsmenu.cmsroles" for="field_cmsroles">Cmsroles</label>
+          <select class="form-control" id="field_cmsroles" data-cy="cmsroles" multiple name="cmsroles" formControlName="cmsroles">
+            <option
+              [ngValue]="getSelectedCmsroles(cmsrolesOption, editForm.get('cmsroles')!.value)"
+              *ngFor="let cmsrolesOption of cmsrolesSharedCollection; trackBy: trackCmsrolesById"
+            >
+              {{ cmsrolesOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label jhiTranslate="deadDiameterApp.cmsmenu.cmspage" for="field_cmspages">Cmspage</label>
+          <select class="form-control" id="field_cmspages" data-cy="cmspage" multiple name="cmspages" formControlName="cmspages">
+            <option
+              [ngValue]="getSelectedCmspage(cmspageOption, editForm.get('cmspages')!.value)"
+              *ngFor="let cmspageOption of cmspagesSharedCollection; trackBy: trackCmspageById"
+            >
+              {{ cmspageOption.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

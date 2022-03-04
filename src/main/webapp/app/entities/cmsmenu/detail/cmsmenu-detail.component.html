@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="cmsmenu">
+      <h2 data-cy="cmsmenuDetailsHeading"><span jhiTranslate="deadDiameterApp.cmsmenu.detail.title">Cmsmenu</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ cmsmenu.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.name">Name</span></dt>
+        <dd>
+          <span>{{ cmsmenu.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.title">Title</span></dt>
+        <dd>
+          <span>{{ cmsmenu.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.description">Description</span></dt>
+        <dd>
+          <span>{{ cmsmenu.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.css">Css</span></dt>
+        <dd>
+          <span>{{ cmsmenu.css }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.menuType">Menu Type</span></dt>
+        <dd>
+          <span>{{ cmsmenu.menuType }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.order">Order</span></dt>
+        <dd>
+          <span>{{ cmsmenu.order }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.active">Active</span></dt>
+        <dd>
+          <span>{{ cmsmenu.active }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.language">Language</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'deadDiameterApp.Cmslanguage.' + cmsmenu.language }}">{{ cmsmenu.language }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.lastModified">Last Modified</span></dt>
+        <dd>
+          <span>{{ cmsmenu.lastModified | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.cmsmenu">Cmsmenu</span></dt>
+        <dd>
+          <div *ngIf="cmsmenu.cmsmenu">
+            <a [routerLink]="['/cmsmenu', cmsmenu.cmsmenu?.id, 'view']">{{ cmsmenu.cmsmenu?.name }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.cmsroles">Cmsroles</span></dt>
+        <dd>
+          <span *ngFor="let cmsroles of cmsmenu.cmsroles; let last = last">
+            <a [routerLink]="['/cmsroles', cmsroles?.id, 'view']">{{ cmsroles.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="deadDiameterApp.cmsmenu.cmspage">Cmspage</span></dt>
+        <dd>
+          <span *ngFor="let cmspage of cmsmenu.cmspages; let last = last">
+            <a [routerLink]="['/cmspage', cmspage?.id, 'view']">{{ cmspage.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/cmsmenu', cmsmenu.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+{
+  "applications": "*",
+  "changelogDate": "20220304212217",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "cmsroles",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Cmsroles",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "cmspage",
+      "otherEntityRelationshipName": "cmsroles",
+      "ownerSide": false,
+      "relationshipName": "cmspage",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "cmsmenu",
+      "otherEntityRelationshipName": "cmsroles",
+      "ownerSide": false,
+      "relationshipName": "cmsmenu",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}
