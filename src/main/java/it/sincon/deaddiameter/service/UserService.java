@@ -2,8 +2,10 @@ package it.sincon.deaddiameter.service;
 
 import it.sincon.deaddiameter.config.Constants;
 import it.sincon.deaddiameter.domain.Authority;
+import it.sincon.deaddiameter.domain.Cmsroles;
 import it.sincon.deaddiameter.domain.User;
 import it.sincon.deaddiameter.repository.AuthorityRepository;
+import it.sincon.deaddiameter.repository.CmsrolesRepository;
 import it.sincon.deaddiameter.repository.UserRepository;
 import it.sincon.deaddiameter.security.AuthoritiesConstants;
 import it.sincon.deaddiameter.security.SecurityUtils;
@@ -13,6 +15,9 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
 
@@ -30,6 +36,7 @@ import tech.jhipster.security.RandomUtil;
 @Transactional
 public class UserService {
 
+    private final SessionFactory sessionFactory;
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
@@ -38,10 +45,52 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
+    private final CmsrolesRepository cmsrolesRepository;
+
+    public Optional<Cmsroles> cloneRole(Cmsroles role) {
+        Optional<Cmsroles> newRole = cmsrolesRepository.findById(role.getId());
+        return newRole;
+    }
+
+    public AdminUserDTO cloneUser(User usr) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        AdminUserDTO userDTO = new AdminUserDTO();
+        User user = session.find(User.class, usr.getId());
+        userDTO.setId(user.getId());
+        userDTO.setLogin(user.getLogin());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setActivated(user.isActivated());
+        userDTO.setImageUrl(user.getImageUrl());
+        userDTO.setLangKey(user.getLangKey());
+        userDTO.setCreatedBy(user.getCreatedBy());
+        userDTO.setCreatedDate(user.getCreatedDate());
+        userDTO.setLastModifiedBy(user.getLastModifiedBy());
+        userDTO.setLastModifiedDate(user.getLastModifiedDate());
+        userDTO.setAuthorities(user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet()));
+        userDTO.setCmsroles(
+            user.getCmsroles().stream().map(this::cloneRole).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet())
+        );
+
+        session.getTransaction().commit();
+        session.close();
+        return userDTO;
+    }
+
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        AuthorityRepository authorityRepository,
+        CmsrolesRepository cmsrolesRepository,
+        SessionFactory sessionFactory
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.cmsrolesRepository = cmsrolesRepository;
+        this.sessionFactory = sessionFactory;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -160,8 +209,19 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
+        if (userDTO.getCmsroles() != null) {
+            Set<Cmsroles> cmsroles = userDTO
+                .getCmsroles()
+                .stream()
+                .map(this::cloneRole)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            user.setCmsroles(cmsroles);
+        }
         userRepository.save(user);
         log.debug("Created Information for User: {}", user);
+
         return user;
     }
 
@@ -187,7 +247,10 @@ public class UserService {
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
+                Set<Cmsroles> managedRoles = user.getCmsroles();
                 managedAuthorities.clear();
+                managedRoles.clear();
+
                 userDTO
                     .getAuthorities()
                     .stream()
@@ -195,10 +258,19 @@ public class UserService {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .forEach(managedAuthorities::add);
+
+                userDTO
+                    .getCmsroles()
+                    .stream()
+                    .map(this::cloneRole)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .forEach(managedRoles::add);
+
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
-            .map(AdminUserDTO::new);
+            .map(this::cloneUser);
     }
 
     public void deleteUser(String login) {
@@ -253,7 +325,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
-        return userRepository.findAll(pageable).map(AdminUserDTO::new);
+        return userRepository.findAll(pageable).map(this::cloneUser);
     }
 
     @Transactional(readOnly = true)
@@ -266,7 +338,7 @@ public class UserService {
         return userRepository.findOneWithAuthoritiesByLogin(login);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true, noRollbackFor = Exception.class)
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
     }

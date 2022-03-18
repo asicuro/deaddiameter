@@ -76,6 +76,7 @@ public class CmsmenuServiceImpl implements CmsmenuService {
     @Transactional(readOnly = true)
     public Page<Cmsmenu> findAll(Pageable pageable) {
         log.debug("Request to get all Cmsmenus");
+
         return cmsmenuRepository.findAll(pageable);
     }
 

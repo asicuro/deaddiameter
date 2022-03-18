@@ -63,7 +63,7 @@ public class Cmspage implements Serializable {
         joinColumns = @JoinColumn(name = "cmspage_id"),
         inverseJoinColumns = @JoinColumn(name = "cmsroles_id")
     )
-    @JsonIgnoreProperties(value = { "cmspages", "cmsmenus" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "cmspages", "cmsmenus", "users" }, allowSetters = true)
     private Set<Cmsroles> cmsroles = new HashSet<>();
 
     @ManyToMany(mappedBy = "cmspages")

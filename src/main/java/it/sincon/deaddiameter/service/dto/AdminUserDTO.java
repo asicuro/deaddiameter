@@ -2,11 +2,17 @@ package it.sincon.deaddiameter.service.dto;
 
 import it.sincon.deaddiameter.config.Constants;
 import it.sincon.deaddiameter.domain.Authority;
+import it.sincon.deaddiameter.domain.Cmsroles;
 import it.sincon.deaddiameter.domain.User;
+import it.sincon.deaddiameter.repository.*;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -48,12 +54,14 @@ public class AdminUserDTO {
 
     private Set<String> authorities;
 
+    private Set<Cmsroles> cmsroles;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
 
     public AdminUserDTO(User user) {
-        this.id = user.getId();
+        /*this.id = user.getId();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
@@ -66,6 +74,7 @@ public class AdminUserDTO {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        this.cmsroles = user.getCmsroles().stream().map(Cmsroles::clone).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toSet());*/
     }
 
     public Long getId() {
@@ -170,6 +179,14 @@ public class AdminUserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public Set<Cmsroles> getCmsroles() {
+        return cmsroles;
+    }
+
+    public void setCmsroles(Set<Cmsroles> cmsroles) {
+        this.cmsroles = cmsroles;
     }
 
     // prettier-ignore

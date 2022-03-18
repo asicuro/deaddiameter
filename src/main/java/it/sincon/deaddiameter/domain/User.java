@@ -1,6 +1,7 @@
 package it.sincon.deaddiameter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import it.sincon.deaddiameter.config.Constants;
 import java.io.Serializable;
 import java.time.Instant;
@@ -89,14 +90,13 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "rel_user__cmsroles",
         joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
         inverseJoinColumns = { @JoinColumn(name = "cmsroles_id", referencedColumnName = "id") }
     )
-    @BatchSize(size = 20)
+    @JsonIgnoreProperties(value = { "cmspages", "cmsmenus", "users" }, allowSetters = true)
     private Set<Cmsroles> cmsroles = new HashSet<>();
 
     public Long getId() {
@@ -105,6 +105,31 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Cmsroles> getCmsroles() {
+        return cmsroles;
+    }
+
+    public void setCmsroles(Set<Cmsroles> cmsroles) {
+        this.cmsroles = cmsroles;
+    }
+
+    public User cmsroles(Set<Cmsroles> cmsroles) {
+        this.setCmsroles(cmsroles);
+        return this;
+    }
+
+    public User addCmsroles(Cmsroles cmsroles) {
+        this.cmsroles.add(cmsroles);
+        cmsroles.getUsers().add(this);
+        return this;
+    }
+
+    public User removeCmsroles(Cmsroles cmsroles) {
+        this.cmsroles.remove(cmsroles);
+        cmsroles.getUsers().remove(this);
+        return this;
     }
 
     public String getLogin() {

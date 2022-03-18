@@ -1,0 +1,98 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="asicu (generated)" id="1646987049039-2">
+        <createTable tableName="rel_user__cmsroles">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="cmsroles_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-3">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="rel_user__cmsroles" constraintName="FK7oq0um6skat4e3avx7ewc30vs" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-4">
+        <addForeignKeyConstraint baseColumnNames="cmsroles_id" baseTableName="rel_user__cmsroles" constraintName="FKp8ivb8w584or5v8p5cc090q8t" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="cmsroles" validate="true"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-5">
+        <dropForeignKeyConstraint baseTableName="country" constraintName="fk_country__region_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-6">
+        <dropForeignKeyConstraint baseTableName="department" constraintName="fk_department__location_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-7">
+        <dropForeignKeyConstraint baseTableName="employee" constraintName="fk_employee__department_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-8">
+        <dropForeignKeyConstraint baseTableName="employee" constraintName="fk_employee__manager_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-9">
+        <dropForeignKeyConstraint baseTableName="job" constraintName="fk_job__employee_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-10">
+        <dropForeignKeyConstraint baseTableName="job_history" constraintName="fk_job_history__department_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-11">
+        <dropForeignKeyConstraint baseTableName="job_history" constraintName="fk_job_history__employee_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-12">
+        <dropForeignKeyConstraint baseTableName="job_history" constraintName="fk_job_history__job_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-13">
+        <dropForeignKeyConstraint baseTableName="location" constraintName="fk_location__country_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-14">
+        <dropForeignKeyConstraint baseTableName="rel_job__task" constraintName="fk_rel_job__task__job_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-15">
+        <dropForeignKeyConstraint baseTableName="rel_job__task" constraintName="fk_rel_job__task__task_id"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-16">
+        <dropUniqueConstraint constraintName="ux_country__region_id" tableName="country"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-17">
+        <dropUniqueConstraint constraintName="ux_department__location_id" tableName="department"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-18">
+        <dropUniqueConstraint constraintName="ux_job_history__department_id" tableName="job_history"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-19">
+        <dropUniqueConstraint constraintName="ux_job_history__employee_id" tableName="job_history"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-20">
+        <dropUniqueConstraint constraintName="ux_job_history__job_id" tableName="job_history"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-21">
+        <dropUniqueConstraint constraintName="ux_location__country_id" tableName="location"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-22">
+        <dropTable tableName="country"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-23">
+        <dropTable tableName="department"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-24">
+        <dropTable tableName="employee"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-25">
+        <dropTable tableName="job"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-26">
+        <dropTable tableName="job_history"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-27">
+        <dropTable tableName="location"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-28">
+        <dropTable tableName="region"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-29">
+        <dropTable tableName="rel_job__task"/>
+    </changeSet>
+    <changeSet author="asicu (generated)" id="1646987049039-30">
+        <dropTable tableName="task"/>
+    </changeSet>
+
+</databaseChangeLog>

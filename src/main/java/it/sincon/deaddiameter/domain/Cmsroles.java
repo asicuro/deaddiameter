@@ -1,8 +1,10 @@
 package it.sincon.deaddiameter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.sincon.deaddiameter.repository.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -40,6 +42,10 @@ public class Cmsroles implements Serializable {
     @ManyToMany(mappedBy = "cmsroles")
     @JsonIgnoreProperties(value = { "cmsmenu", "cmsroles", "cmspages" }, allowSetters = true)
     private Set<Cmsmenu> cmsmenus = new HashSet<>();
+
+    @ManyToMany(mappedBy = "cmsroles")
+    @JsonIgnoreProperties(value = { "cmsroles", "users" }, allowSetters = true)
+    private Set<User> users = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -102,6 +108,20 @@ public class Cmsroles implements Serializable {
     public void setCmspages(Set<Cmspage> cmspages) {
         if (this.cmspages != null) {
             this.cmspages.forEach(i -> i.removeCmsroles(this));
+        }
+        if (cmspages != null) {
+            cmspages.forEach(i -> i.addCmsroles(this));
+        }
+        this.cmspages = cmspages;
+    }
+
+    public Set<User> getUsers() {
+        return this.users;
+    }
+
+    public void setUsers(Set<User> users) {
+        if (this.users != null) {
+            this.users.forEach(i -> i.removeCmsroles(this));
         }
         if (cmspages != null) {
             cmspages.forEach(i -> i.addCmsroles(this));
